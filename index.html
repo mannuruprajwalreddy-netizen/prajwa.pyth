@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Prajwal Reddy – Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=IBM+Plex+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#e9eef5;--ink:#16233b;--muted:#5a6882;--line:#c4cedd;--accent:#2d56e0;--card:#f7f9fc}
+@media(prefers-color-scheme:dark){:root{--bg:#101a2c;--ink:#e6ecf7;--muted:#9aa8c4;--line:#2a3a58;--accent:#7c9bff;--card:#17233b}}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 1.05rem/1.65 "IBM Plex Sans",system-ui,sans-serif}
+a{color:var(--accent)}
+:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+.wrap{max-width:960px;margin:0 auto;padding:0 24px}
+nav{display:flex;gap:22px;justify-content:flex-end;padding:22px 0}
+nav a{color:var(--ink);text-decoration:none;font-weight:500}
+nav a:hover{color:var(--accent)}
+header.hero{padding:6vh 0 9vh}
+h1{font:800 clamp(3.4rem,13vw,9rem)/.92 "Bricolage Grotesque",sans-serif;letter-spacing:-.04em;margin:0}
+.role{font-size:1.3rem;color:var(--muted);max-width:34ch;margin:28px 0}
+.counter{display:inline-block;border:2px solid var(--ink);padding:8px 16px;border-radius:999px;font-weight:500}
+.counter b{color:var(--accent);font-size:1.15em}
+section{padding:56px 0;border-top:1px solid var(--line)}
+h2{font:800 2rem/1.1 "Bricolage Grotesque",sans-serif;margin:0 0 24px;letter-spacing:-.02em}
+.about{max-width:62ch}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px}
+.proj{background:var(--card);border:1px solid var(--line);padding:22px;border-radius:6px}
+.proj h3{margin:0 0 8px;font:500 1.25rem "Bricolage Grotesque",sans-serif}
+.proj p{margin:0 0 12px;color:var(--muted)}
+.tags{font-size:.9rem}
+.skills{display:flex;flex-wrap:wrap;gap:10px;padding:0;list-style:none;margin:0}
+.skills li{border:1px solid var(--line);background:var(--card);padding:6px 14px;border-radius:999px}
+form{display:grid;gap:14px;max-width:560px}
+label{display:grid;gap:6px;font-weight:500}
+input,textarea{font:inherit;padding:11px 12px;border:1px solid var(--line);border-radius:6px;background:var(--card);color:var(--ink)}
+button{font:500 1rem "IBM Plex Sans";padding:12px 22px;border:0;border-radius:6px;background:var(--accent);color:#fff;cursor:pointer;justify-self:start}
+button:disabled{opacity:.6}
+#status{min-height:1.6em;font-weight:500}
+footer{padding:36px 0;color:var(--muted);border-top:1px solid var(--line)}
+@media(prefers-reduced-motion:no-preference){.counter b{animation:pop .6s ease-out}@keyframes pop{from{transform:scale(.6);opacity:0}}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav aria-label="Main"><a href="#about">About</a><a href="#projects">Projects</a><a href="#skills">Skills</a><a href="#contact">Contact</a></nav>
+
+<header class="hero">
+  <h1>Prajwal<br>Reddy</h1>
+  <p class="role">Student developer building useful things with Python and the web.</p>
+  <p class="counter" aria-live="polite">You are visitor <b id="count">…</b></p>
+</header>
+
+<section id="about">
+  <h2>About me</h2>
+  <p class="about">I'm Prajwal Reddy, a student from Bengaluru who enjoys turning ideas into working software. I like solving problems with Python, learning how the web works end to end, and building projects that people can actually use. <!-- EDIT: add your college, course and interests --></p>
+</section>
+
+<section id="projects">
+  <h2>Projects</h2>
+  <div class="grid">
+    <article class="proj"><h3>Portfolio website</h3><p>This site: a Flask backend with a visitor counter and a contact form stored in a database.</p><p class="tags">Python, Flask, SQLite</p></article>
+    <article class="proj"><h3>Project two</h3><p>Describe what it does and the problem it solves. <!-- EDIT --></p><p class="tags">Add your tech stack</p></article>
+    <article class="proj"><h3>Project three</h3><p>Describe what it does and the problem it solves. <!-- EDIT --></p><p class="tags">Add your tech stack</p></article>
+  </div>
+</section>
+
+<section id="skills">
+  <h2>Skills</h2>
+  <ul class="skills"><li>Python</li><li>Flask</li><li>HTML &amp; CSS</li><li>JavaScript</li><li>SQL</li><li>Git &amp; GitHub</li></ul>
+</section>
+
+<section id="contact">
+  <h2>Send me a message</h2>
+  <form id="form">
+    <label>Name <input name="name" required maxlength="80" autocomplete="name"></label>
+    <label>Email <input name="email" type="email" required autocomplete="email"></label>
+    <label>Message <textarea name="message" rows="5" required maxlength="2000"></textarea></label>
+    <button type="submit">Send message</button>
+    <div id="status" role="status"></div>
+  </form>
+</section>
+
+<footer>© 2026 Prajwal Reddy</footer>
+</div>
+
+<script>
+fetch("/api/visit",{method:"POST"}).then(r=>r.json()).then(d=>{document.getElementById("count").textContent="#"+d.count}).catch(()=>{document.getElementById("count").textContent="—"});
+
+const form=document.getElementById("form"),status=document.getElementById("status");
+form.addEventListener("submit",async e=>{
+  e.preventDefault();
+  const btn=form.querySelector("button");btn.disabled=true;status.textContent="Sending…";
+  try{
+    const res=await fetch("/api/contact",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(Object.fromEntries(new FormData(form)))});
+    const d=await res.json();
+    if(res.ok){status.textContent="Message sent. Thank you!";form.reset();}
+    else status.textContent=d.error||"Something went wrong. Try again.";
+  }catch{status.textContent="Network error. Try again.";}
+  btn.disabled=false;
+});
+</script>
+</body>
+</html>
